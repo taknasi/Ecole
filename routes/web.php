@@ -28,9 +28,9 @@ Route::group([
             return view('dashboard');
         });
         /******************************** End Dashboard **************************************/
-        Route::get('/lol', function () {
-            return view('dashboardf');
-        });
+        /******************************** Grades *********************************************/
+        Route::resource('grades','Grades\GradeController')->only(['index','store','update','destroy']);
+        /******************************** End Grades *****************************************/
     });
 
     /******************************** Login and register *************************************/
