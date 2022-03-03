@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -14,18 +15,11 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        //
+        $classes = Classroom::all();
+        $grades = Grade::all();
+        return view('classrooms.classrooms', compact(['classes', 'grades']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +29,15 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $list_classes = $request->List_Classes;
+        foreach ($list_classes as $list_classe) {
+            Classroom::create([
+                'name_class' => $list_classe['name_en'],
+                'grade_id'   => $list_classe['grade_id']
+            ]);
+        }
+        toastr()->success('add with success');
+        return redirect()->route('classes.index');
     }
 
     /**
