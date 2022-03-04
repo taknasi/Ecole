@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Grades;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GradeRequest;
+use App\Models\Classroom;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 
@@ -53,7 +54,7 @@ class GradeController extends Controller
      * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(GradeRequest $request,$id)
+    public function update(GradeRequest $request, $id)
     {
         $grade = Grade::findOrFail($id);
         if ($grade) {
@@ -76,9 +77,14 @@ class GradeController extends Controller
     {
         $grade = Grade::findOrFail($request->id);
         if ($grade) {
-            $grade->delete();
-            toastr()->error('Data has been deleted successfully!');
-            return redirect()->route('grades.index');
+            if (Classroom::where('grade_id', $request->id)->exists()) {
+                toastr()->error('the grade has classroom');
+                return redirect()->route('grades.index');
+            } else {
+                $grade->delete();
+                toastr()->error('Data has been deleted successfully!');
+                return redirect()->route('grades.index');
+            }
         }
     }
 }

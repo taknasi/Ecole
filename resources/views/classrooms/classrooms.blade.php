@@ -43,16 +43,16 @@
 
                 <br><br>
 
-                {{-- <form action="{{ route('Filter_Classes') }}" method="POST">
+                <form action="{{ route('filterByGrade') }}" method="POST">
                     {{ csrf_field() }}
-                    <select class="selectpicker" data-style="btn-info" name="Grade_id" required
+                    <select class="selectpicker" data-style="btn-info" name="grade_id" required
                         onchange="this.form.submit()">
                         <option value="" selected disabled>{{ trans('My_Classes_trans.Search_By_Grade') }}</option>
                         @foreach ($grades as $grade)
                             <option value="{{ $grade->id }}">{{ $grade->name }}</option>
                         @endforeach
                     </select>
-                </form> --}}
+                </form>
 
 
 
@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <!-- edit_form -->
-                                                <form action=""
+                                                <form action="{{ route('classes.update',$class->id) }}"
                                                     method="post">
                                                     {{ method_field('patch') }}
                                                     @csrf
@@ -124,7 +124,7 @@
                                                             <label for="Name"
                                                                 class="mr-sm-2">{{ trans('My_Classes_trans.Name_class') }}
                                                                 :</label>
-                                                            <input id="Name" type="text" name="Name"
+                                                            <input id="Name" type="text" name="name"
                                                                 class="form-control"
                                                                 value="{{ $class->name_class }}"
                                                                 required>
@@ -137,7 +137,7 @@
                                                                 :</label>
                                                             <input type="text" class="form-control"
                                                                 value="{{ $class->name_class }}"
-                                                                name="Name_en" required>
+                                                                name="name_en" required>
                                                         </div>
                                                     </div><br>
                                                     <div class="form-group">
@@ -145,15 +145,15 @@
                                                             for="exampleFormControlTextarea1">{{ trans('My_Classes_trans.Name_Grade') }}
                                                             :</label>
                                                         <select class="form-control form-control-lg"
-                                                            id="exampleFormControlSelect1" name="Grade_id">
+                                                            id="exampleFormControlSelect1" name="grade_id">
                                                             <option value="{{ $class->grade->id }}">
                                                                 {{ $class->grade->name }}
                                                             </option>
-                                                            {{-- @foreach ($Grades as $Grade)
-                                                                <option value="{{ $Grade->id }}">
-                                                                    {{ $Grade->Name }}
+                                                            @foreach ($grades as $grade)
+                                                                <option value="{{ $grade->id }}">
+                                                                    {{ $grade->name }}
                                                                 </option>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                         </select>
 
                                                     </div>
@@ -189,7 +189,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action=""
+                                                <form action="{{ route('classes.destroy',$class->id ) }}"
                                                     method="post">
                                                     {{ method_field('Delete') }}
                                                     @csrf
@@ -314,7 +314,7 @@
 
 
 <!-- حذف مجموعة صفوف -->
-{{-- <div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -342,7 +342,7 @@
             </form>
         </div>
     </div>
-</div> --}}
+</div>
 
 
 
@@ -356,7 +356,7 @@
 @toastr_js
 @toastr_render
 
-{{-- <script type="text/javascript">
+<script type="text/javascript">
     $(function() {
         $("#btn_delete_all").click(function() {
             var selected = new Array();
@@ -370,7 +370,22 @@
             }
         });
     });
-</script> --}}
+</script>
+<script>
+    function CheckAll(className, elem) {
+        var elements = document.getElementsByClassName(className);
+        var l = elements.length;
+        if (elem.checked) {
+            for (var i = 0; i < l; i++) {
+                elements[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < l; i++) {
+                elements[i].checked = false;
+            }
+        }
+    }
+</script>
 
 
 

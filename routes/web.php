@@ -34,6 +34,8 @@ Route::group([
         /******************************** End Grades *****************************************/
         /******************************** Classroom ******************************************/
         Route::resource('classes','ClassroomController')->except(['create','edit','show']);
+        Route::post('delete_all','ClassroomController@delete_all')->name('delete_all');
+        Route::post('classes_by_grade','ClassroomController@filterByGrade')->name('filterByGrade');
         /******************************** End Classroom **************************************/
     });
     /******************************** Login and register *************************************/
